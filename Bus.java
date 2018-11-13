@@ -33,13 +33,6 @@ public class Bus{
 
         int travel_time = 0;
 
-        if(this.bus_rte_loc_index == rte.get_num_stops()-1)
-        {
-            this.next_stop_index = 0;
-        }else{
-            this.next_stop_index = bus_rte_loc_index + 1;
-        }
-
         int bus_rte_loc = rte.rte_stops.get(this.bus_rte_loc_index);
         int next_stop = rte.rte_stops.get(this.next_stop_index);
 
@@ -67,6 +60,18 @@ public class Bus{
         }else {
             return rte.get_stop_id(bus_rte_loc_index - 1);
         }
+    }
+
+    public int get_next_stop(){
+
+        if(this.bus_rte_loc_index == rte.get_num_stops()-1)
+        {
+            this.next_stop_index = 0;
+        }else{
+            this.next_stop_index = bus_rte_loc_index + 1;
+        }
+
+        return this.rte.get_stop_id(next_stop_index);
     }
 
 

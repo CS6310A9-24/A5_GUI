@@ -83,7 +83,7 @@ public class EventControl extends JFrame{
         bus_stop_info.setEditable(false);
         bus_stop_info.setName("bus_stop_info");
 
-        JTextField bus_info = new JTextField("BUS INFO");
+        JTextField bus_info = new JTextField("");
         bus_info.setFont(new Font("Courier", Font.BOLD,8));
         bus_info.setEditable(false);
         bus_info.setName("bus_info");
@@ -198,47 +198,57 @@ public class EventControl extends JFrame{
     private void move_bus(Event e){
         String s = "";
         int bus_index = 0;
-        int sb_index = 0;
+        int curr_sb_index = 0;
         int next_sb_index = 0;
+        int prev_sb_index = 0;
 
         for(int i = 0; i < buses.size(); i++){
             if(buses.get(i).get_bus_ID() == e.get_obj_id()){
                 s = buses.get(i).move_bus(e, this.cur_time);
-                bus_index = buses.get(i).get_curr_stop();
+                //bus_index = buses.get(i).get_curr_stop();
             }
         }
 
-        int next_stop_id = buses.get(sb_index).get_curr_stop();
-        int curr_stop_id = buses.get(sb_index).get_prev_stop();
+        int prev_stop_id = buses.get(curr_sb_index).get_prev_stop();
+        int next_stop_id = buses.get(curr_sb_index).get_next_stop();
+        int curr_stop_id = buses.get(curr_sb_index).get_curr_stop();
+        //int curr_stop_id = buses.get(sb_index).get_prev_stop();
 
         getSim_status().append(s);
 
         for(int i = 0; i < stops.size(); i++) {
-            if (Integer.parseInt(stop_box.get(i).getName()) == curr_stop_id) {
-                sb_index = i;
+            if (Integer.parseInt(stop_box.get(i).getName()) == prev_stop_id) {
+                prev_sb_index = i;
             }
+        }
+
+        for(int i = 0; i < stops.size(); i++) {
+            if (Integer.parseInt(stop_box.get(i).getName()) == curr_stop_id) {
+                curr_sb_index = i;
+            }
+        }
+
+        for(int i = 0; i < stops.size(); i++) {
             if (Integer.parseInt(stop_box.get(i).getName()) == next_stop_id) {
                 next_sb_index = i;
             }
         }
 
-        //int text_index = 0;
-        for(int i = 0; i < stop_box.get(sb_index).getComponentCount(); i++){
-            if(stop_box.get(sb_index).getComponent(i).getName().equals("bus_info")){
-                ((JTextField)(stop_box.get(sb_index).getComponent(i))).setText(s);
+        for(int i = 0; i < stop_box.get(prev_sb_index).getComponentCount(); i++){
+            if(stop_box.get(prev_sb_index).getComponent(i).getName().equals("bus_info")){
+                ((JTextField)(stop_box.get(curr_sb_index).getComponent(i))).setText(s);
             }
         }
 
-        for(int i = 0; i < stop_box.get(next_sb_index).getComponentCount(); i++){
-            if(stop_box.get(next_sb_index).getComponent(i).getName().equals("bus_img")){
-                stop_box.get(sb_index).getComponent(i).setVisible(true);
-                //stop_box.get(sb_index).getComponent(i).setVisible(false);
+        for(int i = 0; i < stop_box.get(curr_sb_index).getComponentCount(); i++){
+            if(stop_box.get(prev_sb_index).getComponent(i).getName().equals("bus_img")){
+                stop_box.get(curr_sb_index).getComponent(i).setVisible(true);
             }
         }
 
 
 
-        stop_box.get(sb_index).validate();
+        stop_box.get(curr_sb_index).validate();
 
         world_layout.validate();
     }
