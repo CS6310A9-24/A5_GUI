@@ -171,15 +171,6 @@ public class EventControl extends JFrame{
             this.cur_time++;
         }
 
-        for(int i = 0; i < stop_box.size(); i++){
-            for(int j = 0; j < stop_box.get(i).getComponentCount(); j++){
-                if(stop_box.get(i).getComponent(j).getName().equals("bus_info")){
-                    ((JTextField)stop_box.get(i).getComponent(j)).setText("");
-                }else if(stop_box.get(i).getComponent(j).getName().equals("bus_img")){
-                    stop_box.get(i).getComponent(j).setVisible(false);
-                }
-            }
-        }
 
         this.events.remove(0);
         switch (temp_event.event_type) {
@@ -201,6 +192,18 @@ public class EventControl extends JFrame{
         int curr_sb_index = 0;
         int next_sb_index = 0;
         int prev_sb_index = 0;
+
+        //this wipes the picture clean, but assumes a single bus...
+        for(int i = 0; i < stop_box.size(); i++){
+            for(int j = 0; j < stop_box.get(i).getComponentCount(); j++){
+                if(stop_box.get(i).getComponent(j).getName().equals("bus_info")){
+                    ((JTextField)stop_box.get(i).getComponent(j)).setText("");
+                }else if(stop_box.get(i).getComponent(j).getName().equals("bus_img")){
+                    stop_box.get(i).getComponent(j).setVisible(false);
+                }
+            }
+        }
+
 
         for(int i = 0; i < buses.size(); i++){
             if(buses.get(i).get_bus_ID() == e.get_obj_id()){
